@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+<meta name="description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：   什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分； 何">
 <meta name="keywords" content="kotlin作用域函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kotlin中let、run、with、apply及also的差别">
 <meta property="og:url" content="http://yoursite.com/2021/07/06/Kotlin中let、run、with、apply及also的差别/index.html">
 <meta property="og:site_name" content="风雨有你">
-<meta property="og:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+<meta property="og:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：   什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分； 何">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-06T08:52:41.712Z">
+<meta property="og:updated_time" content="2021-07-06T09:00:51.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kotlin中let、run、with、apply及also的差别">
-<meta name="twitter:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+<meta name="twitter:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：   什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分； 何">
 
 
 
@@ -357,18 +357,16 @@
         <blockquote>
 <p>作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：</p>
 </blockquote>
-<blockquote>
 <ul>
 <li>什么是Kotlin的作用域函数？</li>
 <li>let、run、with、apply 以及 also这5种作用域函数各自的角色定位；</li>
 <li>5种作用域函数的差异区分；</li>
 <li>何时何地使用这5种作用域？</li>
 </ul>
-</blockquote>
 <a id="more"></a>
 <h3 id="Kotlin的作用域函数"><a href="#Kotlin的作用域函数" class="headerlink" title="Kotlin的作用域函数"></a>Kotlin的作用域函数</h3><p>Kotlin 标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个 lambda 表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。</p>
 <p>简单来说，作用域函数是为了方便对一个对象进行访问和操作，你可以对它进行空检查或者修改它的属性或者直接返回它的值等操作，下面提供了案例对作用域函数进行了详细说明。</p>
-<h3 id="角色定位"><a href="#角色定位" class="headerlink" title="角色定位"></a>角色定位</h3><h5 id="let"><a href="#let" class="headerlink" title="let"></a>let</h5><p><code>public inline fun &lt;T, R&gt; T.let(block: (T) -&gt; R): R</code></p>
+<h3 id="角色定位"><a href="#角色定位" class="headerlink" title="角色定位"></a>角色定位</h3><h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p><code>public inline fun &lt;T, R&gt; T.let(block: (T) -&gt; R): R</code></p>
 <p>let函数是参数化类型 T 的扩展函数。在let块内可以通过 it 指代该对象。返回值为let块的最后一行或指定return表达式。</p>
 <p>我们以一个Book对象为例，类中包含Book的name和price，如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Book() &#123;</span><br><span class="line">    var name = &quot;《数据结构》&quot;</span><br><span class="line">    var price = 60</span><br><span class="line">    fun displayInfo() = print(&quot;Book name : $name and price : $price&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -397,7 +395,7 @@
 <p>let可以将“It”重命名为一个可读的lambda参数。</p>
 <p>let是通过使用“It”关键字来引用对象的上下文，因此，这个“It”可以被重命名为一个可读的lambda参数，如下将it重命名为book：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book().let &#123;book -&gt;</span><br><span class="line">        book.name = &quot;《计算机网络》&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="run"><a href="#run" class="headerlink" title="run"></a>run</h5><p>run函数以“this”作为上下文对象，且它的调用方式与let一致。</p>
+<h4 id="run"><a href="#run" class="headerlink" title="run"></a>run</h4><p>run函数以“this”作为上下文对象，且它的调用方式与let一致。</p>
 <p>另外，第一点：当 lambda 表达式同时包含对象初始化和返回值的计算时，run更适合。</p>
 <p>这句话是什么意思？我们还是用案例来说话：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    Book().run &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 30</span><br><span class="line">        displayInfo()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">Book name : 《计算机网络》 and price : 30</span><br></pre></td></tr></table></figure>
@@ -411,13 +409,13 @@
 <p><code>inline fun &lt;R&gt; run(block: () -&gt; R): R</code></p>
 <p>如下利用run函数块执行方法，而不是作为一个扩展函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">run &#123;</span><br><span class="line">        val book = Book()</span><br><span class="line">        book.name = &quot;《计算机网络》&quot;</span><br><span class="line">        book.price = 30</span><br><span class="line">        book.displayInfo()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="with"><a href="#with" class="headerlink" title="with"></a>with</h5><p><code>inline fun &lt;T, R&gt; with(receiver: T, block: T.() -&gt; R): R</code></p>
+<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p><code>inline fun &lt;T, R&gt; with(receiver: T, block: T.() -&gt; R): R</code></p>
 <p>with属于非扩展函数，直接输入一个对象receiver，当输入receiver后，便可以更改receiver的属性，同时，它也与run做着同样的事情。</p>
 <p>还是提供一个案例说明：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book()</span><br><span class="line"></span><br><span class="line">    with(book) &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上面为例，with（T）类型传入了一个参数book，则可以在with的代码块中访问book的name和price属性，并做更改。</p>
 <p>with使用的是非null的对象，当函数块中不需要返回值时，可以使用with。</p>
-<h5 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h5><p><code>inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T</code></p>
+<h4 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h4><p><code>inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T</code></p>
 <p>apply是 T 的扩展函数,与run函数有些相似，它将对象的上下文引用为“this”而不是“it”，并且提供空安全检查，不同的是，apply不接受函数块中的返回值，返回的是自己的T类型对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    Book().apply &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">com.fbsy.kotlintest.Book@61bbe9ba</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>前面看到的 let、with 和 run 函数返回的值都是 R。但是，apply 和下面查看的 also 返回 T。例如，在 let 中，没有在函数块中返回的值，最终会成为 Unit 类型，但在 apply 中，最后返回对象本身 （T） 时，它成为 Book 类型。</p>
@@ -426,28 +424,28 @@
 <p>also是 T 的扩展函数，返回值与apply一致，直接返回T。also函数的用法类似于let函数，将对象的上下文引用为“it”而不是“this”以及提供空安全检查方面。</p>
 <p>因为T作为block函数的输入，可以使用also来访问属性。所以，在不使用或不改变对象属性的情况下也使用also。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book  = Book().also &#123;</span><br><span class="line">        it.name = &quot;《计算机网络》&quot;</span><br><span class="line">        it.price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">com.fbsy.kotlintest.Book@61bbe9ba</span><br></pre></td></tr></table></figure>
-<h3 id="差异化"><a href="#差异化" class="headerlink" title="差异化"></a><center>差异化<center></center></center></h3><h5 id="let-amp-run"><a href="#let-amp-run" class="headerlink" title="let &amp; run"></a>let &amp; run</h5><ul>
+<h3 id="差异化"><a href="#差异化" class="headerlink" title="差异化"></a>差异化</h3><h4 id="let-amp-run"><a href="#let-amp-run" class="headerlink" title="let &amp; run"></a>let &amp; run</h4><ul>
 <li>let将上下文对象引用为it ，而run引用为this；</li>
 <li>run无法将“this”重命名为一个可读的lambda参数，而let可以将“it”重命名为一个可读的lambda参数。在let多重嵌套时，就可以看到这个特点的优势所在。</li>
 </ul>
-<h5 id="with-amp-run"><a href="#with-amp-run" class="headerlink" title="with &amp; run"></a>with &amp; run</h5><p>with和run其实做的是同一种事情，对上下文对象都称之为“this”，但是他们又存在着不同，我们来看看案例。</p>
+<h4 id="with-amp-run"><a href="#with-amp-run" class="headerlink" title="with &amp; run"></a>with &amp; run</h4><p>with和run其实做的是同一种事情，对上下文对象都称之为“this”，但是他们又存在着不同，我们来看看案例。</p>
 <p>先使用with函数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book: Book? = null</span><br><span class="line">    with(book)&#123;</span><br><span class="line">        this?.name = &quot;《计算机网络》&quot;</span><br><span class="line">        this?.price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们创建了一个可空对象book，利用with函数对book对象的属性进行了修改。代码很直观，那么我们接着将with替换为run，代码更改为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book: Book? = null</span><br><span class="line">    book?.run&#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>首先run函数的调用省略了this引用，在外层就进行了空安全检查，只有非空时才能进入函数块内对book进行操作。相比较with来说，run函数更加简便，空安全检查也没有with那么频繁。</p>
-<h5 id="apply-amp-let"><a href="#apply-amp-let" class="headerlink" title="apply &amp; let"></a>apply &amp; let</h5><ul>
+<h4 id="apply-amp-let"><a href="#apply-amp-let" class="headerlink" title="apply &amp; let"></a>apply &amp; let</h4><ul>
 <li>apply不接受函数块中的返回值，返回的是自己的T类型对象，而let能返回。</li>
 <li>apply上下文对象引用为“this”，let为“it”。</li>
 </ul>
-<h3 id="何时应该使用它们"><a href="#何时应该使用它们" class="headerlink" title="何时应该使用它们"></a><center>何时应该使用它们<center></center></center></h3><ul>
+<h3 id="何时应该使用它们"><a href="#何时应该使用它们" class="headerlink" title="何时应该使用它们"></a>何时应该使用它们</h3><ul>
 <li>用于初始化对象或更改对象属性，可使用apply</li>
 <li>如果将数据指派给接收对象的属性之前验证对象，可使用also</li>
 <li>如果将对象进行空检查并访问或修改其属性，可使用let</li>
 <li>如果是非null的对象并且当函数块中不需要返回值时，可使用with</li>
 <li>如果想要计算某个值，或者限制多个本地变量的范围，则使用run</li>
 </ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title=" 小结 "></a><center> 小结 <center></center></center></h3><p>以上便是Kotlin作用域函数的作用以及使用场景，在Android实际开发中，5种函数使用的频次非常高，在使用过程中发现，当代码逻辑少的时候，作用域函数能带给我们代码的简洁性可读性，但是当逻辑复杂时，使用不同的函数，多次叠加都将降低可读性。这就要我们去区分它们各自的特点，以便在适合且复杂的场景下去使用它。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上便是Kotlin作用域函数的作用以及使用场景，在Android实际开发中，5种函数使用的频次非常高，在使用过程中发现，当代码逻辑少的时候，作用域函数能带给我们代码的简洁性可读性，但是当逻辑复杂时，使用不同的函数，多次叠加都将降低可读性。这就要我们去区分它们各自的特点，以便在适合且复杂的场景下去使用它。</p>
 <p>希望这篇文章能帮到您，感谢阅读。</p>
 
       
@@ -679,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin的作用域函数"><span class="nav-number">1.</span> <span class="nav-text">Kotlin的作用域函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色定位"><span class="nav-number">2.</span> <span class="nav-text">角色定位</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#let"><span class="nav-number">2.0.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#run"><span class="nav-number">2.0.2.</span> <span class="nav-text">run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#with"><span class="nav-number">2.0.3.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apply"><span class="nav-number">2.0.4.</span> <span class="nav-text">apply</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#also"><span class="nav-number">2.1.</span> <span class="nav-text">also</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差异化"><span class="nav-number">3.</span> <span class="nav-text">差异化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#let-amp-run"><span class="nav-number">3.0.1.</span> <span class="nav-text">let &amp; run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#with-amp-run"><span class="nav-number">3.0.2.</span> <span class="nav-text">with &amp; run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apply-amp-let"><span class="nav-number">3.0.3.</span> <span class="nav-text">apply &amp; let</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时应该使用它们"><span class="nav-number">4.</span> <span class="nav-text">何时应该使用它们</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text"> 小结 </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin的作用域函数"><span class="nav-number">1.</span> <span class="nav-text">Kotlin的作用域函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色定位"><span class="nav-number">2.</span> <span class="nav-text">角色定位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#let"><span class="nav-number">2.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#run"><span class="nav-number">2.2.</span> <span class="nav-text">run</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#with"><span class="nav-number">2.3.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply"><span class="nav-number">2.4.</span> <span class="nav-text">apply</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#also"><span class="nav-number">2.5.</span> <span class="nav-text">also</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差异化"><span class="nav-number">3.</span> <span class="nav-text">差异化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#let-amp-run"><span class="nav-number">3.1.</span> <span class="nav-text">let &amp; run</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#with-amp-run"><span class="nav-number">3.2.</span> <span class="nav-text">with &amp; run</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply-amp-let"><span class="nav-number">3.3.</span> <span class="nav-text">apply &amp; let</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时应该使用它们"><span class="nav-number">4.</span> <span class="nav-text">何时应该使用它们</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
