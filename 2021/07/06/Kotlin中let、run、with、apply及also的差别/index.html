@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kotlin作用域函数," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+<meta name="keywords" content="kotlin作用域函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin中let、run、with、apply及also的差别">
+<meta property="og:url" content="http://yoursite.com/2021/07/06/Kotlin中let、run、with、apply及also的差别/index.html">
+<meta property="og:site_name" content="风雨有你">
+<meta property="og:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-07-06T08:52:41.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin中let、run、with、apply及also的差别">
+<meta name="twitter:description" content="作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：    什么是Kotlin的作用域函数？ let、run、with、apply 以及 also这5种作用域函数各自的角色定位； 5种作用域函数的差异区分；">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/06/Kotlin中let、run、with、apply及also的差别/"/>
+
+
+
+
+
+  <title>Kotlin中let、run、with、apply及also的差别 | 风雨有你</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<!--Github-start -->
+<a href="https://github.com/fbsy0605/fbsy0605.github.io" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<!--Github-end -->
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">风雨有你</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">风雨中行走，不断地追求～</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/06/Kotlin中let、run、with、apply及also的差别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fbsy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="风雨有你">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kotlin中let、run、with、apply及also的差别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-06T16:13:29+08:00">
+                2021-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>作用域函数是Kotlin比较重要的一个特性，共分为以下5种：let、run、with、apply 以及 also，这五个函数的工作方式可以说非常相似，但是我们需要了解的是这5种函数的差异，以便在不同的场景更好的利用它。读完这篇文章您将了解到：</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>什么是Kotlin的作用域函数？</li>
+<li>let、run、with、apply 以及 also这5种作用域函数各自的角色定位；</li>
+<li>5种作用域函数的差异区分；</li>
+<li>何时何地使用这5种作用域？</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h3 id="Kotlin的作用域函数"><a href="#Kotlin的作用域函数" class="headerlink" title="Kotlin的作用域函数"></a>Kotlin的作用域函数</h3><p>Kotlin 标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个 lambda 表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。</p>
+<p>简单来说，作用域函数是为了方便对一个对象进行访问和操作，你可以对它进行空检查或者修改它的属性或者直接返回它的值等操作，下面提供了案例对作用域函数进行了详细说明。</p>
+<h3 id="角色定位"><a href="#角色定位" class="headerlink" title="角色定位"></a>角色定位</h3><h5 id="let"><a href="#let" class="headerlink" title="let"></a>let</h5><p><code>public inline fun &lt;T, R&gt; T.let(block: (T) -&gt; R): R</code></p>
+<p>let函数是参数化类型 T 的扩展函数。在let块内可以通过 it 指代该对象。返回值为let块的最后一行或指定return表达式。</p>
+<p>我们以一个Book对象为例，类中包含Book的name和price，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Book() &#123;</span><br><span class="line">    var name = &quot;《数据结构》&quot;</span><br><span class="line">    var price = 60</span><br><span class="line">    fun displayInfo() = print(&quot;Book name : $name and price : $price&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book().let &#123;</span><br><span class="line">        it.name = &quot;《计算机网络》&quot;</span><br><span class="line">        &quot;This book is $&#123;it.name&#125;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">This book is 《计算机网络》</span><br></pre></td></tr></table></figure>
+<p>在上面案例中，我们对Book对象使用let作用域函数，在函数块的最后一句添加了一行字符串代码，并且对Book对象进行打印，我们可以看到最后控制台输出的结果为字符串“This book is 《计算机网络》”。</p>
+<p>按照我们的编程思想，打印一个对象，输出必定是对象，但是使用let函数后，输出为最后一句字符串。这是由于let函数的特性导致。因为在Kotlin中，如果let块中的最后一条语句是非赋值语句，则默认情况下它是返回语句。</p>
+<p>那如果我们将let块中最后一条语句修改为赋值语句，会发生什么变化？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book().let &#123;</span><br><span class="line">        it.name = &quot;《计算机网络》&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">kotlin.Unit</span><br></pre></td></tr></table></figure>
+<p>可以看到我们将Book对象的name值进行了赋值操作，同样对Book对象进行打印，但是最后控制台的输出结果为“kotlin.Unit”，这是因为在let函数块的最后一句是赋值语句，print则将其当做是一个函数来看待。</p>
+<p><strong>这是let角色设定的第一点</strong></p>
+<p>let块中的最后一条语句如果是非赋值语句，则默认情况下它是返回语句，反之，则返回的是一个Unit类型。</p>
+<p><strong>我们来看let的第二点</strong></p>
+<p>let可用于空安全检查。</p>
+<p>如需对非空对象执行操作，可对其使用安全调用操作符 ?. 并调用let在lambda表达式中执行操作。如下案例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var name: String? = null</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val nameLength = name?.let &#123;</span><br><span class="line">        it.length</span><br><span class="line">    &#125; ?: &quot;name为空时的值&quot;</span><br><span class="line">    print(nameLength)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们设置name为一个可空字符串，利用name?.let来进行空判断，只有当name不为空时，逻辑才能走进let函数块中。在这里，我们可能还看不出来let空判断的优势，但是当你有大量name的属性需要编写的时候，就能发现let的快速和简洁。</p>
+<p><strong>let的第三点</strong></p>
+<p>let可对调用链的结果进行操作。</p>
+<p>关于这一点，官方教程给出了一个案例，在这里就直接使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123; </span><br><span class="line">    val numbers = mutableListOf(&quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;,&quot;Four&quot;,&quot;Five&quot;)</span><br><span class="line">    val resultsList = numbers.map &#123; it.length &#125;.filter &#123; it &gt; 3 &#125;</span><br><span class="line">    print(resultsList)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们的目的是获取数组列表中长度大于3的值。因为我们必须打印结果，所以我们将结果存储在一个单独的变量中，然后打印它。但是使用“let”操作符，我们可以将代码修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val numbers = mutableListOf(&quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;,&quot;Four&quot;,&quot;Five&quot;)</span><br><span class="line">    numbers.map &#123; it.length &#125;.filter &#123; it &gt; 3 &#125;.let &#123;</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用let后可以直接对数组列表中长度大于3的值进行打印，去掉了变量赋值这一步。</p>
+<p>另外，let函数还存在一个特点。</p>
+<p><strong>let的第四点</strong></p>
+<p>let可以将“It”重命名为一个可读的lambda参数。</p>
+<p>let是通过使用“It”关键字来引用对象的上下文，因此，这个“It”可以被重命名为一个可读的lambda参数，如下将it重命名为book：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book().let &#123;book -&gt;</span><br><span class="line">        book.name = &quot;《计算机网络》&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="run"><a href="#run" class="headerlink" title="run"></a>run</h5><p>run函数以“this”作为上下文对象，且它的调用方式与let一致。</p>
+<p>另外，第一点：当 lambda 表达式同时包含对象初始化和返回值的计算时，run更适合。</p>
+<p>这句话是什么意思？我们还是用案例来说话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    Book().run &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 30</span><br><span class="line">        displayInfo()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">Book name : 《计算机网络》 and price : 30</span><br></pre></td></tr></table></figure>
+<p>如果不使用run函数，相同功能下代码会怎样？来看一看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    val book = Book()</span><br><span class="line">    book.name = &quot;《计算机网络》&quot;</span><br><span class="line">    book.price = 30</span><br><span class="line">    book.displayInfo()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">Book name : 《计算机网络》 and price : 30</span><br></pre></td></tr></table></figure>
+<p>输出结果还是一样，但是run函数所带来的代码简洁程度已经显而易见。</p>
+<p>除此之外，让我们来看看run函数的其他优点。通过查看源码，了解到run函数存在两种声明方式。</p>
+<p><strong>1、与let一样，run是作为T的扩展函数。</strong></p>
+<p><code>inline fun &lt;T, R&gt; T.run(block: T.() -&gt; R): R</code></p>
+<p><strong>2、第二个run的声明方式则不同，它不是扩展函数，并且块中也没有输入值，因此，它不是用于传递对象并更改属性的类型，而是可以使你在需要表达式的地方就可以执行一个语句。</strong></p>
+<p><code>inline fun &lt;R&gt; run(block: () -&gt; R): R</code></p>
+<p>如下利用run函数块执行方法，而不是作为一个扩展函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">run &#123;</span><br><span class="line">        val book = Book()</span><br><span class="line">        book.name = &quot;《计算机网络》&quot;</span><br><span class="line">        book.price = 30</span><br><span class="line">        book.displayInfo()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="with"><a href="#with" class="headerlink" title="with"></a>with</h5><p><code>inline fun &lt;T, R&gt; with(receiver: T, block: T.() -&gt; R): R</code></p>
+<p>with属于非扩展函数，直接输入一个对象receiver，当输入receiver后，便可以更改receiver的属性，同时，它也与run做着同样的事情。</p>
+<p>还是提供一个案例说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book = Book()</span><br><span class="line"></span><br><span class="line">    with(book) &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上面为例，with（T）类型传入了一个参数book，则可以在with的代码块中访问book的name和price属性，并做更改。</p>
+<p>with使用的是非null的对象，当函数块中不需要返回值时，可以使用with。</p>
+<h5 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h5><p><code>inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T</code></p>
+<p>apply是 T 的扩展函数,与run函数有些相似，它将对象的上下文引用为“this”而不是“it”，并且提供空安全检查，不同的是，apply不接受函数块中的返回值，返回的是自己的T类型对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    Book().apply &#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">com.fbsy.kotlintest.Book@61bbe9ba</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前面看到的 let、with 和 run 函数返回的值都是 R。但是，apply 和下面查看的 also 返回 T。例如，在 let 中，没有在函数块中返回的值，最终会成为 Unit 类型，但在 apply 中，最后返回对象本身 （T） 时，它成为 Book 类型。</p>
+<p>apply函数主要用于初始化或更改对象，因为它用于在不使用对象的函数的情况下返回自身。</p>
+<h4 id="also"><a href="#also" class="headerlink" title="also"></a>also</h4><p><code>inline fun &lt;T&gt; T.also(block: (T) -&gt; Unit): T</code></p>
+<p>also是 T 的扩展函数，返回值与apply一致，直接返回T。also函数的用法类似于let函数，将对象的上下文引用为“it”而不是“this”以及提供空安全检查方面。</p>
+<p>因为T作为block函数的输入，可以使用also来访问属性。所以，在不使用或不改变对象属性的情况下也使用also。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book  = Book().also &#123;</span><br><span class="line">        it.name = &quot;《计算机网络》&quot;</span><br><span class="line">        it.price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">com.fbsy.kotlintest.Book@61bbe9ba</span><br></pre></td></tr></table></figure>
+<h3 id="差异化"><a href="#差异化" class="headerlink" title="差异化"></a><center>差异化<center></center></center></h3><h5 id="let-amp-run"><a href="#let-amp-run" class="headerlink" title="let &amp; run"></a>let &amp; run</h5><ul>
+<li>let将上下文对象引用为it ，而run引用为this；</li>
+<li>run无法将“this”重命名为一个可读的lambda参数，而let可以将“it”重命名为一个可读的lambda参数。在let多重嵌套时，就可以看到这个特点的优势所在。</li>
+</ul>
+<h5 id="with-amp-run"><a href="#with-amp-run" class="headerlink" title="with &amp; run"></a>with &amp; run</h5><p>with和run其实做的是同一种事情，对上下文对象都称之为“this”，但是他们又存在着不同，我们来看看案例。</p>
+<p>先使用with函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book: Book? = null</span><br><span class="line">    with(book)&#123;</span><br><span class="line">        this?.name = &quot;《计算机网络》&quot;</span><br><span class="line">        this?.price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建了一个可空对象book，利用with函数对book对象的属性进行了修改。代码很直观，那么我们接着将with替换为run，代码更改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val book: Book? = null</span><br><span class="line">    book?.run&#123;</span><br><span class="line">        name = &quot;《计算机网络》&quot;</span><br><span class="line">        price = 40</span><br><span class="line">    &#125;</span><br><span class="line">    print(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先run函数的调用省略了this引用，在外层就进行了空安全检查，只有非空时才能进入函数块内对book进行操作。相比较with来说，run函数更加简便，空安全检查也没有with那么频繁。</p>
+<h5 id="apply-amp-let"><a href="#apply-amp-let" class="headerlink" title="apply &amp; let"></a>apply &amp; let</h5><ul>
+<li>apply不接受函数块中的返回值，返回的是自己的T类型对象，而let能返回。</li>
+<li>apply上下文对象引用为“this”，let为“it”。</li>
+</ul>
+<h3 id="何时应该使用它们"><a href="#何时应该使用它们" class="headerlink" title="何时应该使用它们"></a><center>何时应该使用它们<center></center></center></h3><ul>
+<li>用于初始化对象或更改对象属性，可使用apply</li>
+<li>如果将数据指派给接收对象的属性之前验证对象，可使用also</li>
+<li>如果将对象进行空检查并访问或修改其属性，可使用let</li>
+<li>如果是非null的对象并且当函数块中不需要返回值时，可使用with</li>
+<li>如果想要计算某个值，或者限制多个本地变量的范围，则使用run</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title=" 小结 "></a><center> 小结 <center></center></center></h3><p>以上便是Kotlin作用域函数的作用以及使用场景，在Android实际开发中，5种函数使用的频次非常高，在使用过程中发现，当代码逻辑少的时候，作用域函数能带给我们代码的简洁性可读性，但是当逻辑复杂时，使用不同的函数，多次叠加都将降低可读性。这就要我们去区分它们各自的特点，以便在适合且复杂的场景下去使用它。</p>
+<p>希望这篇文章能帮到您，感谢阅读。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="fbsy 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kotlin作用域函数/" rel="tag"><i class="fa fa-tag"></i> kotlin作用域函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/28/小五Cake美食记/" rel="next" title="xiaowucake">
+                <i class="fa fa-chevron-left"></i> xiaowucake
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="fbsy" />
+            
+              <p class="site-author-name" itemprop="name">fbsy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fbsy0605" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.wanandroid.com" title="玩Android" target="_blank">玩Android</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com" title="安卓学习笔记" target="_blank">安卓学习笔记</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/yangchong211/YCBlogs" title="技术博客笔记" target="_blank">技术博客笔记</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin的作用域函数"><span class="nav-number">1.</span> <span class="nav-text">Kotlin的作用域函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色定位"><span class="nav-number">2.</span> <span class="nav-text">角色定位</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#let"><span class="nav-number">2.0.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#run"><span class="nav-number">2.0.2.</span> <span class="nav-text">run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#with"><span class="nav-number">2.0.3.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apply"><span class="nav-number">2.0.4.</span> <span class="nav-text">apply</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#also"><span class="nav-number">2.1.</span> <span class="nav-text">also</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差异化"><span class="nav-number">3.</span> <span class="nav-text">差异化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#let-amp-run"><span class="nav-number">3.0.1.</span> <span class="nav-text">let &amp; run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#with-amp-run"><span class="nav-number">3.0.2.</span> <span class="nav-text">with &amp; run</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apply-amp-let"><span class="nav-number">3.0.3.</span> <span class="nav-text">apply &amp; let</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时应该使用它们"><span class="nav-number">4.</span> <span class="nav-text">何时应该使用它们</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text"> 小结 </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fbsy</span>
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+ <span id="busuanzi_container_site_uv">
+   您是本站第<span id="busuanzi_value_site_uv"></span>位访问者
+</span>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
